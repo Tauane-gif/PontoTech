@@ -4,129 +4,111 @@ import { ClienteModel } from "../model/ClienteModel.js";
 
 const clienteModel = new ClienteModel();
 
-// Listar clientes
-export async function listarClientes(
-    req: Request,
-    res: Response
-): Promise<void> {
+export class ClienteController {
+  public async listarClientes(_req: Request, res: Response): Promise<void> {
     try {
-        const clientes = await clienteModel.listarClientes();
-        res.status(200).json(clientes);
+      const clientes = await clienteModel.listarClientes();
+      res.status(200).json(clientes);
     } catch (error) {
-        res.status(500).json({
-            mensagem: "Erro ao listar clientes."
-        });
+      res.status(500).json({
+        mensagem: "Erro ao listar clientes."
+      });
     }
-}
+  }
 
-// Buscar cliente pelo ID
-export async function buscarCliente(
-    req: Request,
-    res: Response
-): Promise<void> {
+  public async buscarCliente(req: Request, res: Response): Promise<void> {
     try {
-        const id = Number(req.params.id);
-        const cliente = await clienteModel.buscarCliente(id);
+      const id = Number(req.params.id);
+      const cliente = await clienteModel.buscarCliente(id);
 
-        if (!cliente) {
-            res.status(404).json({
-                mensagem: "Cliente não encontrado."
-            });
-            return;
-        }
-
-        res.status(200).json(cliente);
-    } catch (error) {
-        res.status(500).json({
-            mensagem: "Erro ao buscar cliente."
+      if (!cliente) {
+        res.status(404).json({
+          mensagem: "Cliente não encontrado."
         });
-    }
-}
+        return;
+      }
 
-// Cadastrar cliente
-export async function cadastrarCliente(
-    req: Request,
-    res: Response
-): Promise<void> {
+      res.status(200).json(cliente);
+    } catch (error) {
+      res.status(500).json({
+        mensagem: "Erro ao buscar cliente."
+      });
+    }
+  }
+
+  public async cadastrarCliente(req: Request, res: Response): Promise<void> {
     try {
-        const { nome, cpf, telefone, email } = req.body;
+      const { nome, cpf, telefone, email } = req.body;
 
-        if (!nome || !telefone) {
-            res.status(400).json({
-                mensagem: "Nome e telefone são obrigatórios."
-            });
-            return;
-        }
-
-        const cliente = await clienteModel.cadastrarCliente(
-            nome,
-            cpf,
-            telefone,
-            email
-        );
-
-        res.status(201).json(cliente);
-    } catch (error) {
-        res.status(500).json({
-            mensagem: "Erro ao cadastrar cliente."
+      if (!nome || !telefone) {
+        res.status(400).json({
+          mensagem: "Nome e telefone são obrigatórios."
         });
-    }
-}
+        return;
+      }
 
-// Atualizar cliente
-export async function atualizarCliente(
-    req: Request,
-    res: Response
-): Promise<void> {
+      const cliente = await clienteModel.cadastrarCliente(
+        nome,
+        cpf,
+        telefone,
+        email
+      );
+
+      res.status(201).json(cliente);
+    } catch (error) {
+      res.status(500).json({
+        mensagem: "Erro ao cadastrar cliente."
+      });
+    }
+  }
+
+  public async atualizarCliente(req: Request, res: Response): Promise<void> {
     try {
-        const id = Number(req.params.id);
-        const { nome, cpf, telefone, email } = req.body;
+      const id = Number(req.params.id);
+      const { nome, cpf, telefone, email } = req.body;
 
-        const cliente = await clienteModel.atualizarCliente(
-            id,
-            nome,
-            cpf,
-            telefone,
-            email
-        );
+      const cliente = await clienteModel.atualizarCliente(
+        id,
+        nome,
+        cpf,
+        telefone,
+        email
+      );
 
-        if (!cliente) {
-            res.status(404).json({
-                mensagem: "Cliente não encontrado."
-            });
-            return;
-        }
-
-        res.status(200).json(cliente);
-    } catch (error) {
-        res.status(500).json({
-            mensagem: "Erro ao atualizar cliente."
+      if (!cliente) {
+        res.status(404).json({
+          mensagem: "Cliente não encontrado."
         });
-    }
-}
+        return;
+      }
 
-// Excluir cliente
-export async function excluirCliente(
-    req: Request,
-    res: Response
-): Promise<void> {
+      res.status(200).json(cliente);
+    } catch (error) {
+      res.status(500).json({
+        mensagem: "Erro ao atualizar cliente."
+      });
+    }
+  }
+
+  public async excluirCliente(req: Request, res: Response): Promise<void> {
     try {
-        const id = Number(req.params.id);
-        const cliente = await clienteModel.excluirCliente(id);
+      const id = Number(req.params.id);
+      const cliente = await clienteModel.excluirCliente(id);
 
-        if (!cliente) {
-            res.status(404).json({
-                mensagem: "Cliente não encontrado."
-            });
-            return;
-        }
-
-        res.status(200).json({
-            mensagem: "Cliente excluído com sucesso."
+      if (!cliente) {
+        res.status(404).json({
+          mensagem: "Cliente não encontrado."
         });
+        return;
+      }
+
+      res.status(200).json({
+        mensagem: "Cliente excluído com sucesso."
+      });
     } catch (error) {
-        res.status(500).json({
-            mensagem: "Erro ao excluir cliente."
-        });
+      res.status(500).json({
+        mensagem: "Erro ao excluir cliente."
+      });
     }
+  }
 }
