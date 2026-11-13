@@ -7,6 +7,19 @@ CREATE TABLE cliente (
     email VARCHAR(100)
 );
 
+-- TABELA AGENDAMENTO
+CREATE TABLE agendamento (
+    id_agendamento SERIAL PRIMARY KEY,
+    id_cliente INTEGER NOT NULL,
+    data DATE NOT NULL,
+    horario TIME NOT NULL,
+    status VARCHAR(30) DEFAULT 'Agendado',
+    observacao TEXT,
+
+    FOREIGN KEY (id_cliente)
+    REFERENCES cliente(id_cliente)
+);
+
 -- TABELA FUNCIONARIO
 CREATE TABLE funcionario (
     id_funcionario SERIAL PRIMARY KEY,
