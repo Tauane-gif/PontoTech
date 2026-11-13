@@ -44,6 +44,18 @@ export class DatabaseModel {
    * Método para testar a conexão com o banco de dados.
    */
   public async testeConexao(): Promise<boolean> {
+    const requiredVariables = ["DB_USER", "DB_NAME", "DB_PASSWORD"];
+    const missingVariables = requiredVariables.filter(
+      (variable) => !process.env[variable],
+    );
+
+    if (missingVariables.length > 0) {
+      console.error(
+        `Missing database environment variables: ${missingVariables.join(", ")}`,
+      );
+      return false;
+    }
+
     try {
       await this._client.connect();
       console.log("Database connected!");
