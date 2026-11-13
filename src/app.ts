@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 
-import { getHealthController } from "./controller/HealthController.js";
 import { DatabaseModel } from "./model/DatabaseModel.js";
 
 const app = express();
@@ -15,7 +14,9 @@ app.get("/", (_req, res) => {
   res.json({ message: "API funcionando corretamente" });
 });
 
-app.get("/health", getHealthController);
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok", service: "projeto-backend" });
+});
 
 databaseModel.testeConexao().then((resDb) => {
   if (resDb) {
